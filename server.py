@@ -3,8 +3,21 @@ from pythonmysql import *
 import time
 from multiprocessing import Pool, Process, Queue, Lock
 import multiprocessing
+import pymysql
 
-
+coon = pymysql.Connect('localhost','root','123456',charset='utf8')
+cur = coon.cursor()
+sql_createDB = '''create database if not exists game default charset=utf8; use game;'''
+sql_createRB = '''create table if not exists players(
+name varchar(20),
+passwd varchar(20),
+money float(7,2)
+)default charset=utf8;'''
+cur.execute(sql_createDB)
+cur.execute(sql_createRB)
+coon.commit()
+cur.close()
+coon.close()
 class Player(object):
     def __init__(self, name, passwd, conn, money=200.0):
         self.name = name
